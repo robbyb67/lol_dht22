@@ -14,6 +14,7 @@
 #include <unistd.h>
 
 #include "locking.h"
+#include "dht22.h"
 
 #define MAXTIMINGS 85
 static int DHTPIN = 7;
@@ -32,8 +33,9 @@ static uint8_t sizecvt(const int read)
   return (uint8_t)read;
 }
 
-static int read_dht22_dat()
+static int read_dht22_dat(float* humidity, float* temperature, int pin)
 {
+  DHTPIN = pin;
   uint8_t laststate = HIGH;
   uint8_t counter = 0;
   uint8_t j = 0, i;
@@ -87,13 +89,14 @@ static int read_dht22_dat()
         t /= 10.0;
         if ((dht22_dat[2] & 0x80) != 0)  t *= -1;
 
+        *temperature = t;
+        *humidity = h;
 
-    printf("Humidity = %.2f %% Temperature = %.2f *C \n", h, t );
-    return 1;
+        return 1;
   }
   else
   {
-    printf("Data not good, skip\n");
+    //printf("Data not good, skip\n");
     return 0;
   }
 }
@@ -130,8 +133,10 @@ int main (int argc, char *argv[])
     exit(EXIT_FAILURE);
   }
 
-  while (read_dht22_dat() == 0 && tries--) 
+  float temp, humi;
+  while (read_dht22_dat(&temp, &humi, DHTPIN) == 0 && tries--)
   {
+    printf("Humidity = %.2f %% Temperature = %.2f *C \n", humi, temp );
      delay(1000); // wait 1sec to refresh
   }
 

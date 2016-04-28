@@ -1,5 +1,5 @@
 bin_PROGRAMS = loldht
-loldht_SOURCES = dht22.c locking.c
+loldht_SOURCES = dht22.c locking.c jnicall.c
 AUTOMAKE_OPTIONS = foreign
 
 noinst_HEADERS = 
@@ -10,3 +10,5 @@ distclean-local:
 splint:
 	splint dht22.c -warnposix -I/usr/local/include  -I/usr/include/arm-linux-gnueabihf -shiftimplementation
 	splint locking.c -warnposix -I/usr/local/include  -I/usr/include/arm-linux-gnueabihf -unrecog
+	splint jnicall.c -warnposix -I/usr/local/include  -I/usr/include/arm-linux-gnueabihf -shiftimplementation
+	
