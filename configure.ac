@@ -1,5 +1,5 @@
-AC_INIT(lolware_dht, version-0.1)
-AM_INIT_AUTOMAKE(lolware_dht,0.0.1)
+AC_INIT(lolware_dht, [0.1])
+AM_INIT_AUTOMAKE
 AM_CONFIG_HEADER(config.h)
 AM_SILENT_RULES([yes])
 
@@ -24,7 +24,7 @@ AS_IF([test "x$enable_secure" != "xno"], [
 
 
 AC_HEADER_STDC
-AC_CHECK_HEADER(wiringPi,wiringpi_h_found=yes)
+AC_CHECK_HEADER(wiringPi.h,wiringpi_h_found=yes)
 AS_IF([test x$wiringpi_h_found != "xyes"],
 	AC_CHECK_HEADER([/usr/local/include/wiringPi.h],
 		CFLAGS="${CFLAGS} -I/usr/local/include",
